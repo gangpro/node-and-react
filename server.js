@@ -6,7 +6,7 @@ const app = express()
 //     res.send(`Welcome Node.js Server Root : http://localhost:${PORT}`);
 // })
 
-app.get("/api/greeting", (req, res) => {
+app.get("/api/greeting/", (req, res) => {
     res.send({ title     : 'Hello World from Node!!'
              , subTitle  : 'Node x React'
              , paragraph : 'paragraph'
@@ -24,6 +24,13 @@ app.get("/api/greeting", (req, res) => {
 //     });
 //   }
 
+const path = require('path')
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, 'client/build')))
+// Anything that doesn't match the above, send back index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'))
+})
 
 //app.listen(PORT);
 const PORT = process.env.PORT || 5000;
